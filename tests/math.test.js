@@ -1,19 +1,10 @@
-test(`sum`, () => {
-// if there is no error then test is passed
-})
+const { calculatedTip } = require("../src/tempMath")
 
-test(`sum`, () => {
-    throw new Error('Failure')
-    // and if there is error then test case is fail
+test(`Should calculate total with tip`, () => {
+    const total = calculatedTip(10, .2)
+
+    if (total !== 12) {
+        throw new Error('Total tip should be 12. got ' + total)
+    }
+    
 }) 
-
-// 
-// why tests
-// 
-//  - Save time
-//  - Create reliable software
-//  - Gives flexibility to devlopers
-//      - Refactoring
-//      - Collaborating
-//      - Profiling
-//  - Peace of mind
