@@ -9,3 +9,4 @@ test('Should calculate total with default tip', () => {
     const total = calculatedTip(100)
     expect(total).toBe(130)
 })
+
