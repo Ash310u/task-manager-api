@@ -3,8 +3,9 @@ const { calculatedTip } = require("../src/tempMath")
 test(`Should calculate total with tip`, () => {
     const total = calculatedTip(10, .2)
     expect(total).toBe(12)
-    // if (total !== 12) {
-    //     throw new Error('Total tip should be 12. got ' + total)
-    // }
-    
-}) 
+})
+
+test('Should calculate total with default tip', () => {
+    const total = calculatedTip(100)
+    expect(total).toBe(130)
+})
