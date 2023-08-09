@@ -13,4 +13,3 @@ app.use(userRouter);
 app.listen(port, () => {
     console.log(`server is up on ${port}`);
 });
-
