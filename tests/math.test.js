@@ -1,4 +1,4 @@
-const { calculatedTip } = require("../src/tempMath")
+const { calculatedTip, fahrenheitToCelsius, celsiusToFahrenheit } = require("../src/tempMath")
 
 test(`Should calculate total with tip`, () => {
     const total = calculatedTip(10, .2)
@@ -10,3 +10,12 @@ test('Should calculate total with default tip', () => {
     expect(total).toBe(130)
 })
 
+test(`F => C`, () => {
+    const Cel = fahrenheitToCelsius(32)
+    expect(Cel).toBe(0)
+})
+
+test(`C => F`, () => {
+    const Far = celsiusToFahrenheit(0)
+    expect(Far).toBe(32)
+})
