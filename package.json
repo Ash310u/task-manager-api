@@ -7,6 +7,9 @@
     "dev": "env-cmd -f ./config/dev.env nodemon src/index.js",
     "test": "env-cmd ./config/test.env jest --watch"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
