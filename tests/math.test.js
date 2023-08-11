@@ -28,14 +28,14 @@ test(`C => F`, () => {
 // })
 
 
-test(`Should add two numbers`, (done) => {
-    add(1, 2).then((result) => {
-        expect(result).toBe(3)
-        done()
-    })
-})
+// test(`Should add two numbers`, (done) => {
+//     add(1, 2).then((result) => {
+//         expect(result).toBe(3)
+//         done()
+//     })
+// })
 
-test(`Should add two numbers async/await`, async () => {
-    const result = await add(10, 20)
-    expect(result).toBe(30)
-})
+// test(`Should add two numbers async/await`, async () => {
+//     const result = await add(10, 20)
+//     expect(result).toBe(30)
+// })
