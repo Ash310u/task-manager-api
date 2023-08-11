@@ -5,8 +5,15 @@ const request = require('supertest')
 const app = require("../src/app");
 const User = require('../src/models/user');
 
+const userone = {
+    name: 'Dumble Dore',
+    email:'ping.doubledore@hogwarts.com',
+    password:'open.Doubledoor!'
+}
+
 beforeEach(async ()=> {
     await User.deleteMany()
+    await new User(userone).save()
 })
 
 test('Should signup a new user', async () => {
@@ -16,3 +23,13 @@ test('Should signup a new user', async () => {
         password:'RickSanchez137!'
     }).expect(201)
 }) 
+
+test('Should login existing user', async () => {
+    await request(app).post('/users/login').send(userone).expect(200)
+})
+test('Should not login nonexisting user', async () => {
+    await request(app).post('/users/login').send({
+        email:'nonexisting@exaple.com',
+        password:'testingpass!'
+    }).expect(400)
+})
