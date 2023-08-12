@@ -100,3 +100,12 @@ test('Should not delete account for unauthenticated user', async () => {
         .send()
         .expect(401)
 })
+
+test('Should upload avatar image', async () => {
+    await request(app).post('/users/me/avatar')
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        // ".attach" is provided by supertest allowing us to attach files
+        .attach('avatar', 'tests/fixtures/ape.jpeg')
+        .expect(200)
+
+})
