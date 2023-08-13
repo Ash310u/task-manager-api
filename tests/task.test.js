@@ -2,12 +2,22 @@
 // I just want Express application before listen to be called. To make request using supertest.
 
 const request = require('supertest')
-const Task = require('../src/models/task');
 const app = require('../src/app');
-const { setupDatabase, userOne, userOneId } = require('./fixtures/db');
+const Task = require('../src/models/task');
+const { userOneId, userOne, setupDatabase } = require('./fixtures/db');
 
 beforeEach(setupDatabase)
 
 test('Should create task for user', async () => {
+    const response = await request(app).post('/tasks')
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send({
+            description: 'testing task case one',
+            completed: true
+        })
+        .expect(201)
 
+    // Assert that the database was changed correctly
+    const task = await Task.findById(response.body._id)
+    expect(task).not.toBeNull()
 })
