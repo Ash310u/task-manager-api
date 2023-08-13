@@ -13,11 +13,11 @@ test('Should create task for user', async () => {
         .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
         .send({
             description: 'testing task case one',
-            completed: true
         })
         .expect(201)
 
     // Assert that the database was changed correctly
     const task = await Task.findById(response.body._id)
     expect(task).not.toBeNull()
+    expect(task.completed).toEqual(false)
 })
