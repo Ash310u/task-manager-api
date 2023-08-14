@@ -54,6 +54,36 @@ test('Should not login nonexisting user', async () => {
         .expect(400)
 })
 
+// Should not signup user with invalid name/email/password
+
+test('Should not signup user with invalid name', async () => {
+    await request(app).post('/users')
+        .send({
+            name:BigInt(3764178234624623),
+            email: 'nonexisting@exaple.com',
+            password: 'testingpass!'
+        })
+        .expect(400)
+})
+test('Should not signup user with invalid email', async () => {
+    await request(app).post('/users')
+        .send({
+            name: 'ashh',
+            email: 'nonexistingexaple.com',
+            password: 'testingpass!'
+        })
+        .expect(400)
+})
+test('Should not signup user with invalid password', async () => {
+    await request(app).post('/users')
+        .send({
+            name: 1,
+            email: 'nonexisting@exaple.com',
+            password: 'password1234'
+        })
+        .expect(400)
+})
+
 test('Should get profile for user', async () => {
     await request(app).get('/users/me')
         // using ".set" method for setting header we are using "Authorization"
@@ -100,10 +130,10 @@ test('Should update valid user fields', async () => {
     await request(app).patch('/users/me')
         .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
         .send({
-            name:'Professor Albus Dumbledore'
+            name: 'Professor Albus Dumbledore'
         })
         .expect(200)
-    
+
     const user = await User.findById(userOneId)
     expect(user.name).toBe('Professor Albus Dumbledore')
 })
@@ -112,7 +142,7 @@ test('Should not update invalid user fields', async () => {
     await request(app).patch('/users/me')
         .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
         .send({
-            location:'Hogwarts'
+            location: 'Hogwarts'
         })
         .expect(400)
 })
