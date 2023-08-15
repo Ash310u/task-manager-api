@@ -22,6 +22,32 @@ test('Should create task for user', async () => {
     expect(task.completed).toEqual(false)
 })
 
+// Should not create task with invalid description/completed
+
+test('Should not create task with invalid description', async () => {
+    const response = await request(app).post('/tasks')
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send({
+            description:"",
+            completed:true
+        })
+        .expect(400)
+    
+    expect(response.body._id).toEqual(undefined)
+})
+
+test('Should not create task with invalid completed', async () => {
+    const response = await request(app).post('/tasks')
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send({
+            description:" invalid completed test ",
+            completed:"completed testing"
+        })
+        .expect(400)
+    
+    expect(response.body._id).toEqual(undefined)
+})
+
 test('Should fetch user tasks', async () => {
     const response = await request(app).get('/tasks')
         .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
