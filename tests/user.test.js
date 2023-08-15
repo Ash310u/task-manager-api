@@ -60,7 +60,7 @@ test('Should not login nonexisting user', async () => {
 test('Should not signup user with invalid name', async () => {
     await request(app).post('/users')
         .send({
-            name:BigInt(3764178234624623),
+            name:"",
             email: 'nonexisting@exaple.com',
             password: 'testingpass!'
         })
@@ -165,7 +165,7 @@ test('Should not update user with invalid name', async () => {
     await request(app).patch('/users/me')
         .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
         .send({
-            name:BigInt(3764178234624623),
+            name:"",
             email: 'nonexistingexaple.com',
             password: 'testingpass!'
         })

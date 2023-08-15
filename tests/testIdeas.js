@@ -1,11 +1,6 @@
 //
 // User Test Ideas
 //
-// Should not update user if unauthenticated
-// Should not update user with invalid name/email/password
-// Should not delete user if unauthenticated
-
-//
 // Task Test Ideas
 //
 // Should not create task with invalid description/completed
