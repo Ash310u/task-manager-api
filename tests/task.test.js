@@ -112,6 +112,24 @@ test('Should fetch only incomplete tasks', async () => {
     });
 })
 
+// Should sort tasks by /createdAt/updatedAt
+
+test('Should sort tasks by createdAt', async () => {
+    await request(app).get(`/tasks?sortBy=createdAt_desc`)
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send()
+        .expect(200)
+
+})
+
+test('Should sort tasks by updatedAt', async () => {
+    await request(app).get(`/tasks?sortBy=updatedAt_desc`)
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send()
+        .expect(200)
+
+})
+
 test('Should delete user task', async () => {
     await request(app).delete(`/tasks/${taskOne._id}`)
         .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
