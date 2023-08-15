@@ -66,3 +66,29 @@ test('Should not delete other users tasks', async () => {
     const task = await Task.findById(taskOne._id)
     expect(task).not.toBeNull()
 })
+
+// Should not update task with invalid description/completed
+
+test('Should not update task with invalid description', async () => {
+    const response = await request(app).patch(`/tasks/${taskOne._id}`)
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send({
+            description:"",
+            completed:true
+        })
+        .expect(500)
+    
+    expect(response.body.description).not.toBe(taskOne.description)
+})
+
+test('Should not update task with invalid completed', async () => {
+    const response = await request(app).patch(`/tasks/${taskOne._id}`)
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send({
+            description:" invalid completed test ",
+            completed:"completed testing"
+        })
+        .expect(500)
+
+    expect(response.body.completed).not.toBe(taskOne.completed)
+})

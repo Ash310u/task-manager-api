@@ -2,10 +2,8 @@
 // User Test Ideas
 //
 // Task Test Ideas
-//
-// Should not create task with invalid description/completed
 
-// Should not update task with invalid description/completed
+
 // Should delete user task
 // Should not delete task if unauthenticated
 // Should not update other users task
