@@ -67,6 +67,14 @@ test('Should fetch user task by id', async () => {
     expect(task.owner).toEqual(userOne._id)
 })
 
+test('Should not fetch user task by id if unauthenticated', async () => {
+    const response = await request(app).get(`/tasks/${taskOne._id}`)
+        .send()
+        .expect(401)
+
+    expect(response.body._id).toEqual(undefined)
+})
+
 test('Should delete user task', async () => {
     await request(app).delete(`/tasks/${taskOne._id}`)
         .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
