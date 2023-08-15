@@ -62,7 +62,7 @@ test('Should delete user task', async () => {
         .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
         .send()
         .expect(200)
-        
+
     const task = await Task.findById(taskOne._id)
     expect(task).toBeNull()
 })
@@ -106,4 +106,16 @@ test('Should not update task with invalid completed', async () => {
         .expect(500)
 
     expect(response.body.completed).not.toBe(taskOne.completed)
+})
+
+test('Should not update other users task', async () => {
+    const response = await request(app).patch(`/tasks/${taskThree._id}`)
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send({
+            description:" try to uodate other users task ",
+            completed:true
+        })
+        .expect(404)
+
+    expect(response.body._id).toEqual(undefined)    
 })
