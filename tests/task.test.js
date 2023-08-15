@@ -93,7 +93,21 @@ test('Should fetch only completed tasks', async () => {
     const tasks = response.body
     tasks.forEach(task => {
         if (!task.completed === true) {
-            throw new Error('its not completed values')
+            throw new Error('its showing incompleted values')
+        }
+    });
+})
+
+test('Should fetch only incomplete tasks', async () => {
+    const response = await request(app).get(`/tasks?sortBy=createdAt_desc&completed=false`)
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send()
+        .expect(200)
+
+    const tasks = response.body
+    tasks.forEach(task => {
+        if (!task.completed === false) {
+            throw new Error('its showing completed values')
         }
     });
 })
