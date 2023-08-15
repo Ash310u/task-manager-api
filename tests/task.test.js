@@ -58,10 +58,18 @@ test('Should fetch user tasks', async () => {
 })
 
 test('Should delete user task', async () => {
-    const response = await request(app).delete(`/tasks/${taskOne._id}`)
+    await request(app).delete(`/tasks/${taskOne._id}`)
         .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
         .send()
         .expect(200)
+
+    const task = await Task.findById(taskOne._id)
+    expect(task).toBeNull()
+})
+test('Should not delete task if unauthenticated', async () => {
+    await request(app).delete(`/tasks/${taskOne._id}`)
+        .send()
+        .expect(401)
 })
 
 test('Should not delete other users tasks', async () => {

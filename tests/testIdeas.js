@@ -4,8 +4,6 @@
 // Task Test Ideas
 
 
-// Should delete user task
-// Should not delete task if unauthenticated
 // Should not update other users task
 // Should fetch user task by id
 // Should not fetch user task by id if unauthenticated
