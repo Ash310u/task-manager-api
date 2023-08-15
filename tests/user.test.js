@@ -146,3 +146,14 @@ test('Should not update invalid user fields', async () => {
         })
         .expect(400)
 })
+
+test('Should not update user if unauthenticated', async () => {
+    await request(app).patch('/users/me')
+        .send({
+            name: 'Professor Albus Dumbledore'
+        })
+        .expect(401)
+
+    const user = await User.findById(userOneId)
+    expect(user.name).toBe('Dumble Dore')
+})
