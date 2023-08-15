@@ -62,7 +62,7 @@ test('Should delete user task', async () => {
         .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
         .send()
         .expect(200)
-
+        
     const task = await Task.findById(taskOne._id)
     expect(task).toBeNull()
 })
