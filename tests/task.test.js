@@ -84,6 +84,20 @@ test('Should not fetch user task by id if unauthenticated', async () => {
     expect(response.body._id).toEqual(undefined)
 })
 
+test('Should fetch only completed tasks', async () => {
+    const response = await request(app).get(`/tasks?sortBy=createdAt_desc&completed=true`)
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send()
+        .expect(200)
+
+    const tasks = response.body
+    tasks.forEach(task => {
+        if (!task.completed === true) {
+            throw new Error('its not completed values')
+        }
+    });
+})
+
 test('Should delete user task', async () => {
     await request(app).delete(`/tasks/${taskOne._id}`)
         .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
