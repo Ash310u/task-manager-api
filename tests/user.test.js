@@ -2,9 +2,10 @@
 // I just want Express application before listen to be called. To make request using supertest.
 
 const request = require('supertest')
+const bcrypt = require('bcryptjs')
 const app = require("../src/app");
 const User = require('../src/models/user');
-const { userOneId, userOne, setupDatabase } = require('./fixtures/db');
+const { userOneId, userOne, userTwoId, userTwo, taskOne, taskTwo, taskThree, setupDatabase } = require('./fixtures/db');
 
 beforeEach(setupDatabase)
 
@@ -77,7 +78,7 @@ test('Should not signup user with invalid email', async () => {
 test('Should not signup user with invalid password', async () => {
     await request(app).post('/users')
         .send({
-            name: 1,
+            name: 'ash',
             email: 'nonexisting@exaple.com',
             password: 'password1234'
         })
@@ -156,4 +157,44 @@ test('Should not update user if unauthenticated', async () => {
 
     const user = await User.findById(userOneId)
     expect(user.name).toBe('Dumble Dore')
+})
+
+// Should not update user with invalid name/email/password
+
+test('Should not update user with invalid name', async () => {
+    await request(app).patch('/users/me')
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send({
+            name:BigInt(3764178234624623),
+            email: 'nonexistingexaple.com',
+            password: 'testingpass!'
+        })
+        .expect(400)
+    const user = await User.findById(userOneId)
+    expect(user.name).toBe('Dumble Dore')
+})
+test('Should not update user with invalid email', async () => {
+    await request(app).patch('/users/me')
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)    
+        .send({
+            name: 'ashh',
+            email: 'nonexistingexaple.com',
+            password: 'testingpass!'
+        })
+        .expect(400)
+    const user = await User.findById(userOneId)
+    expect(user.email).toBe('ping.doubledore@hogwarts.com')
+})
+test('Should not update user with invalid password', async () => {
+    await request(app).patch('/users/me')
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send({
+            name: 'ash',
+            email: 'nonexisting@exaple.com',
+            password: 'password1234'
+        })
+        .expect(400)
+    const user = await User.findById(userOneId)
+    const isMatch = await bcrypt.compare('open.Doubledoor!', user.password)
+    expect(isMatch).toEqual(true)
 })
