@@ -48,6 +48,17 @@ test('Should not create task with invalid completed', async () => {
     expect(response.body._id).toEqual(undefined)
 })
 
+// Should fetch page of tasks
+
+test('Should fetch page of task', async () => {
+    const response = await request(app).get('/tasks')
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send()
+        .expect(200)
+    
+    expect(response.body).toEqual(expect.any(Array))
+})
+
 test('Should fetch user tasks', async () => {
     const response = await request(app).get('/tasks')
         .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
