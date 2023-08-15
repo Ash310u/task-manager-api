@@ -57,6 +57,16 @@ test('Should fetch user tasks', async () => {
     expect(response.body.length).toEqual(2)
 })
 
+test('Should fetch user task by id', async () => {
+    const response = await request(app).get(`/tasks/${taskOne._id}`)
+        .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
+        .send()
+        .expect(200)
+
+    const task = await Task.findById(response.body._id)
+    expect(task.owner).toEqual(userOne._id)
+})
+
 test('Should delete user task', async () => {
     await request(app).delete(`/tasks/${taskOne._id}`)
         .set(`Authorization`, `Bearer ${userOne.tokens[0].token}`)
