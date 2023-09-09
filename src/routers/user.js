@@ -111,7 +111,6 @@ const upload = multer({
     },
     // filter out the files
     fileFilter(req, file, cb) {
-
         // using regular expression [ match 'jpeg' or 'jpg' or 'png']
         if (!file.originalname.match(/\.(jpeg|png|jpg)$/)) {
             return cb(new Error('Please upload a image'))
